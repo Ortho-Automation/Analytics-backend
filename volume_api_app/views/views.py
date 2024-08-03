@@ -3,9 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
-from volume_api_app.serializers.serializers import (
-    PolygonSerializer,
-)
+from volume_api_app.serializers.serializers import PolygonSerializer
 from volume_api_app.mixins.volume_calculation_tool import (
     VolumeCalculationToolStandalone,
 )

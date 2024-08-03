@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import GeoTIFFFile
+from ..models import GeoTIFFFile, GLBMesh
 
 
 class CoordinateField(serializers.ListField):
@@ -26,3 +26,17 @@ class GeoTIFFFileSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(f"/api/geotiffs/{obj.id}/get-tile/")
         return f"/api/geotiffs/{obj.id}/get-tile/"
+
+
+class GLBMeshSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = GLBMesh
+        fields = ["id", "name", "file", "file_url"]
+
+    def get_file_url(self, obj):
+        request = self.context.get("request")
+        if request:
+            return request.build_absolute_uri(obj.file.url)
+        return obj.file.url

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import ImageFile, URLImageFile, GeoTIFFFile
+from ..models import GeoTIFFFile
 
 
 class CoordinateField(serializers.ListField):
@@ -12,18 +12,6 @@ class PolygonField(serializers.ListField):
 
 class PolygonSerializer(serializers.Serializer):
     polygons = serializers.ListField(child=PolygonField())
-
-
-class ImageFileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ImageFile
-        fields = "__all__"
-
-
-class URLImageFileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = URLImageFile
-        fields = "__all__"
 
 
 class GeoTIFFFileSerializer(serializers.ModelSerializer):

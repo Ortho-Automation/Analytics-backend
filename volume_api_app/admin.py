@@ -1,12 +1,7 @@
 from django.contrib import admin
-from .models import ImageFile, URLImageFile
+from .models import GeoTIFFFile
 
 
-@admin.register(ImageFile)
-class ImageFileAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-
-
-@admin.register(URLImageFile)
-class URLImageFileAdmin(admin.ModelAdmin):
+@admin.register(GeoTIFFFile)
+class GeoTIFFFileAdmin(admin.ModelAdmin):
     list_display = ("pk", "name")

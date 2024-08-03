@@ -7,7 +7,7 @@ import volume_api_app.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("volume_api_app", "0003_alter_imagefile_file_alter_imagefile_name_and_more"),
+        ('volume_api_app', '0002_urlimagefile'),
     ]
 
     operations = [

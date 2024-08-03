@@ -10,18 +10,13 @@ from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 from volume_api_app.serializers.serializers import (
     PolygonSerializer,
-    ImageFileSerializer,
-    URLImageFileSerializer,
+    GeoTIFFFileSerializer,
 )
 from volume_api_app.mixins.volume_calculation_tool import (
     VolumeCalculationToolStandalone,
 )
 from shapely.geometry import Polygon
 from PIL import Image
-from ..models import ImageFile, URLImageFile
-
-from django_large_image.rest import LargeImageFileDetailMixin, LargeImageDetailMixin
-from django_large_image.utilities import make_vsi
 
 
 class VolumeAPIViewSet(viewsets.ViewSet):
@@ -56,30 +51,3 @@ class VolumeAPIViewSet(viewsets.ViewSet):
 
             return Response(results, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ImageFileDetailViewSet(
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,
-    LargeImageFileDetailMixin,
-):
-    queryset = ImageFile.objects.all()
-    serializer_class = ImageFileSerializer
-
-    # for `django-large-image`: the name of the image FileField on your model
-    FILE_FIELD_NAME = "file"
-
-
-class URLLargeImageMixin(LargeImageDetailMixin):
-    def get_path(self, request, pk=None):
-        object = self.get_object()
-        return make_vsi(object.url)
-
-
-class URLImageFileDetailViewSet(
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,
-    URLLargeImageMixin,
-):
-    queryset = URLImageFile.objects.all()
-    serializer_class = URLImageFileSerializer

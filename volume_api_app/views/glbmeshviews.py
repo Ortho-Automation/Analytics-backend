@@ -30,8 +30,8 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=["get"], url_path="content-as-json")
-    def content_as_json(self, request, pk=None):
+    @action(detail=True, methods=["get"], url_path="content")
+    def content(self, request, pk=None):
         glb_mesh = self.get_object()
         file_path = glb_mesh.file.path
         try:

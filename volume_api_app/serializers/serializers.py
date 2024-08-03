@@ -38,5 +38,5 @@ class GLBMeshSerializer(serializers.ModelSerializer):
     def get_file_url(self, obj):
         request = self.context.get("request")
         if request:
-            return request.build_absolute_uri(obj.file.url)
+            return request.build_absolute_uri(obj.id)
         return obj.file.url

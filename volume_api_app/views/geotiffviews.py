@@ -92,7 +92,11 @@ class GeoTIFFFileViewSet(viewsets.ModelViewSet):
             math.atan(math.sinh(math.pi - (2.0 * math.pi * y) / math.pow(2.0, z)))
         )
 
-    @action(detail=True, methods=["get"], url_path="tiles/(?P<z>[0-9]+)/(?P<x>[0-9]+)/(?P<y>[0-9]+)")
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path="tiles/(?P<z>[0-9]+)/(?P<x>[0-9]+)/(?P<y>[0-9]+)",
+    )
     def get_tile(self, request, pk=None, z=None, x=None, y=None):
         geotiff = self.get_object()
         layer_name = geotiff.name

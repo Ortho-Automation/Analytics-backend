@@ -384,17 +384,3 @@ $RECYCLE.BIN/
 
 # test_data/
 todo.txt
-
-Dockerfile
-docker-compose.yml
-
-# Ignore test report artifacts
-dms/xmlrunner_results/
-dms/coverage/
-dms/celerybeat-schedule.db
-.coverage
-
-.vault_password
-envs/.env*
-!envs/Dockerfile
-dms/celerybeat-schedule.db

@@ -24,8 +24,8 @@ class GeoTIFFFileSerializer(serializers.ModelSerializer):
     def get_tile_url(self, obj):
         request = self.context.get("request")
         if request:
-            return request.build_absolute_uri(f"/api/geotiffs/{obj.id}/get-tile/")
-        return f"/api/geotiffs/{obj.id}/get-tile/"
+            return request.build_absolute_uri(f"/api/geotiffs/{obj.id}/tiles/")
+        return f"/api/geotiffs/{obj.id}/tiles/"
 
 
 class GLBMeshSerializer(serializers.ModelSerializer):

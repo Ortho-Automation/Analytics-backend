@@ -5,6 +5,7 @@ drf-yasg
 geopandas
 shapely
 matplotlib
+rasterio
 django-cors-headers
 psycopg2-binary>=2.8,<3
 geoserver-rest==2.7.0

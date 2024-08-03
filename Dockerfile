@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
     git \
     python3-pip \
     python3.8 \
+    postgresql-client \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -15,9 +16,6 @@ RUN pip install --upgrade \
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-RUN pip install \
-  django-large-image \
-  'large-image[rasterio,pil]>=1.22'
 RUN pip install numpy>1.0.0 wheel setuptools>=67
 RUN pip install --no-cache-dir --force-reinstall gdal==3.5.0
 

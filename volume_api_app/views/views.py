@@ -1,22 +1,15 @@
 import os
-import rasterio
-from rasterio.windows import Window
-import numpy as np
-from django.conf import settings
-from django.http import HttpResponse, Http404
-from rest_framework import viewsets, status, mixins
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 from volume_api_app.serializers.serializers import (
     PolygonSerializer,
-    GeoTIFFFileSerializer,
 )
 from volume_api_app.mixins.volume_calculation_tool import (
     VolumeCalculationToolStandalone,
 )
 from shapely.geometry import Polygon
-from PIL import Image
 
 
 class VolumeAPIViewSet(viewsets.ViewSet):

@@ -121,8 +121,8 @@ class GeoTIFFFileViewSet(viewsets.ModelViewSet):
             "styles": "",
             "format": "image/png",
             "transparent": "true",
-            "width": "500",
-            "height": "500",
+            "width": "250",
+            "height": "250",
             "bbox": f"{bbox['west']},{bbox['south']},{bbox['east']},{bbox['north']}",
         }
 

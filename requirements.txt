@@ -1,0 +1,11 @@
+black
+django
+djangorestframework
+drf-yasg
+geopandas
+shapely
+matplotlib
+django-cors-headers
+django-large-image
+psycopg2-binary>=2.8,<3
+geoserver-rest==2.7.0

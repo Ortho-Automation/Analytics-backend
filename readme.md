@@ -36,7 +36,7 @@ python manage.py makemigrations # If changes happen for e.g. superuser
 Running commands inside Docker image:
 ```bash
 docker-compose up --build
-docker exec -it volume_api-volume_api-1 black .
+docker exec -it volume_api_app-volume_api-1 black .
 docker exec -it volume_api-volume_api-1 python manage.py migrate
 docker exec -it volume_api-volume_api-1 python manage.py makemigrations
 ```

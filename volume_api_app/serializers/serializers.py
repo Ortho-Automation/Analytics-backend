@@ -12,6 +12,7 @@ class PolygonField(serializers.ListField):
 
 class PolygonSerializer(serializers.Serializer):
     polygons = serializers.ListField(child=PolygonField())
+    id = serializers.IntegerField(required=False)
 
 
 class GeoTIFFFileSerializer(serializers.ModelSerializer):

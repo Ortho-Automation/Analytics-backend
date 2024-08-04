@@ -49,7 +49,14 @@ class VolumeAPIViewSet(viewsets.ViewSet):
             )
 
             results = [
-                {"polygon_id": i + 1, "volume_above_base_level": volume}
+                {
+                    "polygon_id": i + 1,
+                    "volume_above_base_level": (
+                        volume
+                        if volume is not None
+                        else "Input shapes do not overlap raster."
+                    ),
+                }
                 for i, volume in enumerate(volumes)
             ]
 

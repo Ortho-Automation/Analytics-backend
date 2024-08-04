@@ -42,9 +42,9 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
                     {"error": "File not found"}, status=status.HTTP_404_NOT_FOUND
                 )
 
-            # Serve the GLB file as a blob
+            # Serve the GLB file
             response = FileResponse(
-                open(file_path, "rb"), content_type="application/octet-stream"
+                open(file_path, "rb"), content_type="model/gltf-binary"
             )
             response["Content-Disposition"] = 'inline; filename="{}"'.format(
                 os.path.basename(file_path)

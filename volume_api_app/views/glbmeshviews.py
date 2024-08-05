@@ -60,3 +60,39 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+    @action(detail=True, methods=["get"], url_path="get_json")
+    def get_json(self, request, pk=None):
+        glb_mesh = self.get_object()
+        if not glb_mesh.data:
+            return Response(
+                {"error": "No JSON data available"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        file_path = glb_mesh.data.path
+        try:
+            logging.debug(f"File path: {file_path}")
+            if not os.path.exists(file_path):
+                logging.error("File does not exist")
+                return Response(
+                    {"error": "File not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Serve the JSON file
+            response = FileResponse(
+                open(file_path, "rb"), content_type="application/json"
+            )
+            response["Content-Disposition"] = 'inline; filename="{}"'.format(
+                os.path.basename(file_path)
+            )
+            return response
+        except FileNotFoundError:
+            logging.error("File not found")
+            return Response(
+                {"error": "File not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logging.error(f"Error: {str(e)}")
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

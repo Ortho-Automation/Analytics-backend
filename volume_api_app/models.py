@@ -15,9 +15,17 @@ def get_glb_file_path(instance, filename):
     return os.path.join("Data", "glb", filename)
 
 
+def get_glb_json_path(instance, filename):
+    if filename is None:
+        return
+    else:
+        return os.path.join("Data", "glbjson", filename)
+
+
 class GLBMesh(models.Model):
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to=get_glb_file_path)
+    data = models.FileField(upload_to=get_glb_json_path, blank=True, null=True)
 
     def __str__(self):
         return self.name

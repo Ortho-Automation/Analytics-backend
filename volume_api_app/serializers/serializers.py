@@ -1,5 +1,7 @@
+# serializers/serializers.py
+
 from rest_framework import serializers
-from ..models import GeoTIFFFile, GLBMesh
+from ..models import GeoTIFFFile, GLBMesh, DEMFile
 
 
 class CoordinateField(serializers.ListField):
@@ -41,3 +43,18 @@ class GLBMeshSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(obj.id)
         return obj.file.url
+
+
+# New DEMFileSerializer
+class DEMFileSerializer(serializers.ModelSerializer):
+    tile_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DEMFile
+        fields = ["id", "name", "file", "tile_url"]
+
+    def get_tile_url(self, obj):
+        request = self.context.get("request")
+        if request:
+            return request.build_absolute_uri(f"/api/dems/{obj.id}/tiles/")
+        return f"/api/dems/{obj.id}/tiles/"

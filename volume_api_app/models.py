@@ -21,3 +21,16 @@ class GLBMesh(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# New DEM model
+def get_dem_file_path(instance, filename):
+    return os.path.join("Data", "dems", filename)
+
+
+class DEMFile(models.Model):
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to=get_dem_file_path)
+
+    def __str__(self):
+        return self.name

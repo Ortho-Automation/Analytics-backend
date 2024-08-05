@@ -8,7 +8,7 @@ from volume_api_app.mixins.volume_calculation_tool import (
     VolumeCalculationToolStandalone,
 )
 from shapely.geometry import Polygon
-from ..models import GeoTIFFFile
+from ..models import DEMFile
 
 
 class VolumeAPIViewSet(viewsets.ViewSet):
@@ -24,21 +24,21 @@ class VolumeAPIViewSet(viewsets.ViewSet):
             polygons_data = serializer.validated_data.get("polygons", [])
             polygons = [Polygon(coords) for coords in polygons_data]
 
-            geotiff_id = serializer.validated_data.get("id")
-            if geotiff_id:
+            dem_id = serializer.validated_data.get("id")
+            if dem_id:
                 try:
-                    geotiff = GeoTIFFFile.objects.get(id=geotiff_id)
-                    dem_path = geotiff.file.path
-                except GeoTIFFFile.DoesNotExist:
+                    dem = DEMFile.objects.get(id=dem_id)
+                    dem_path = dem.file.path
+                except DEMFile.DoesNotExist:
                     return Response(
-                        {"error": "GeoTIFF file not found."},
+                        {"error": "DEM file not found."},
                         status=status.HTTP_404_NOT_FOUND,
                     )
             else:
-                # Fallback to default DEM path if geotiff_id is not provided
+                # Fallback to default DEM path if DEM_id is not provided
                 script_dir = os.path.dirname(os.path.abspath(__file__))
                 data_dir = os.path.dirname(script_dir)
-                dem_path = os.path.join(data_dir, "Data", "sample_demv1.tiff")
+                dem_path = os.path.join(data_dir, "dems", "sample_demv1.tiff")
 
             pixel_size_x = 0.07085796904697951037
             pixel_size_y = 0.07085530815116512782

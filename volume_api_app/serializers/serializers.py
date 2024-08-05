@@ -40,13 +40,13 @@ class GLBMeshSerializer(serializers.ModelSerializer):
     def get_file_url(self, obj):
         request = self.context.get("request")
         if request:
-            return request.build_absolute_uri(obj.file.url)
+            return request.build_absolute_uri(obj.id)
         return obj.file.url
 
     def get_data_url(self, obj):
         request = self.context.get("request")
         if obj.data and hasattr(obj.data, "url"):
-            return request.build_absolute_uri(obj.data.url)
+            return request.build_absolute_uri(f"/api/glbmeshes/{obj.id}")
         return None
 
     def create(self, validated_data):

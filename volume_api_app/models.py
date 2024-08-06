@@ -52,7 +52,7 @@ class DEMFile(models.Model):
     @property
     def geoserver(self):
         # URL template
-        template = "geotiff/wms?service=WMS&version=1.1.0&request=GetMap&layers=dem%3A{name}&bbox={{bbox-epsg-3857}}&width=256&height=256&srs=EPSG:3857&styles=&format=image/png&transparent=true"
+        template = "dem/wms?service=WMS&version=1.1.0&request=GetMap&layers=dem%3A{name}&bbox={{bbox-epsg-3857}}&width=256&height=256&srs=EPSG:3857&styles=&format=image/png&transparent=true"
         return template.format(name=self.name)
 
     def __str__(self):

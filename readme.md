@@ -56,3 +56,9 @@ To format your code with black, run the following command in your project direct
 ```bash
 black .
 ```
+
+### CORS Headers not found in Geoserver responses?
+Wait for your geoserver to spin up successfully, then perform:
+```bash
+docker cp ./web.xml volume_api_app-geoserver-1:/opt/apache-tomcat-9.0.86/webapps/geoserver/WEB-INF/web.xml
+```

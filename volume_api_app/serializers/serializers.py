@@ -17,10 +17,11 @@ class PolygonSerializer(serializers.Serializer):
 
 class GeoTIFFFileSerializer(serializers.ModelSerializer):
     tile_url = serializers.SerializerMethodField()
+    geoserver_url = serializers.ReadOnlyField(source="geoserver")
 
     class Meta:
         model = GeoTIFFFile
-        fields = ["id", "name", "file", "tile_url"]
+        fields = ["id", "name", "file", "tile_url", "geoserver_url"]
 
     def get_tile_url(self, obj):
         request = self.context.get("request")
@@ -59,10 +60,11 @@ class GLBMeshSerializer(serializers.ModelSerializer):
 
 class DEMFileSerializer(serializers.ModelSerializer):
     tile_url = serializers.SerializerMethodField()
+    geoserver_url = serializers.ReadOnlyField(source="geoserver")
 
     class Meta:
         model = DEMFile
-        fields = ["id", "name", "file", "tile_url"]
+        fields = ["id", "name", "file", "tile_url", "geoserver_url"]
 
     def get_tile_url(self, obj):
         request = self.context.get("request")

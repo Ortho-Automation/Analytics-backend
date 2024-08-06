@@ -2,16 +2,11 @@ from rest_framework import viewsets, status, parsers
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.http import FileResponse
-from ..models import GLBMesh
-from ..serializers.serializers import GLBMeshSerializer
 import logging
 import os
 
 
-class GLBMeshViewSet(viewsets.ModelViewSet):
-    queryset = GLBMesh.objects.all()
-    serializer_class = GLBMeshSerializer
-
+class BaseMeshViewSet(viewsets.ModelViewSet):
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context["request"] = self.request
@@ -23,17 +18,17 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
         url_path="upload",
         parser_classes=[parsers.MultiPartParser, parsers.FormParser],
     )
-    def upload_glb(self, request):
+    def upload_mesh(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            glb_file = serializer.save()
+            mesh_file = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=["get"], url_path="content")
     def content(self, request, pk=None):
-        glb_mesh = self.get_object()
-        file_path = glb_mesh.file.path
+        mesh = self.get_object()
+        file_path = mesh.file.path
         try:
             logging.debug(f"File path: {file_path}")
             if not os.path.exists(file_path):
@@ -42,9 +37,8 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
                     {"error": "File not found"}, status=status.HTTP_404_NOT_FOUND
                 )
 
-            # Serve the GLB file
             response = FileResponse(
-                open(file_path, "rb"), content_type="model/gltf-binary"
+                open(file_path, "rb"), content_type=self.get_content_type()
             )
             response["Content-Disposition"] = 'inline; filename="{}"'.format(
                 os.path.basename(file_path)
@@ -63,13 +57,13 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], url_path="get_json")
     def get_json(self, request, pk=None):
-        glb_mesh = self.get_object()
-        if not glb_mesh.data:
+        mesh = self.get_object()
+        if not mesh.data:
             return Response(
                 {"error": "No JSON data available"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        file_path = glb_mesh.data.path
+        file_path = mesh.data.path
         try:
             logging.debug(f"File path: {file_path}")
             if not os.path.exists(file_path):
@@ -78,7 +72,6 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
                     {"error": "File not found"}, status=status.HTTP_404_NOT_FOUND
                 )
 
-            # Serve the JSON file
             response = FileResponse(
                 open(file_path, "rb"), content_type="application/json"
             )
@@ -96,3 +89,6 @@ class GLBMeshViewSet(viewsets.ModelViewSet):
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+    def get_content_type(self):
+        raise NotImplementedError("You must define get_content_type in subclasses")

@@ -25,20 +25,20 @@ class VolumeAPIViewSet(viewsets.ViewSet):
             polygons = [Polygon(coords) for coords in polygons_data]
 
             dem_id = serializer.validated_data.get("id")
-            if dem_id:
-                try:
-                    dem = DEMFile.objects.get(id=dem_id)
-                    dem_path = dem.file.path
-                except DEMFile.DoesNotExist:
-                    return Response(
-                        {"error": "DEM file not found."},
-                        status=status.HTTP_404_NOT_FOUND,
-                    )
-            else:
-                # Fallback to default DEM path if DEM_id is not provided
-                script_dir = os.path.dirname(os.path.abspath(__file__))
-                data_dir = os.path.dirname(script_dir)
-                dem_path = os.path.join(data_dir, "dems", "sample_demv1.tiff")
+            if not dem_id:
+                return Response(
+                    {"error": "DEM file ID must be provided."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            try:
+                dem = DEMFile.objects.get(id=dem_id)
+                dem_path = dem.file.path
+            except DEMFile.DoesNotExist:
+                return Response(
+                    {"error": "DEM file not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
             pixel_size_x = 0.07085796904697951037
             pixel_size_y = 0.07085530815116512782

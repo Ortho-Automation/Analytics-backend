@@ -8,4 +8,4 @@ until psql postgresql://$PSQL_USER:$PSQL_PASSWORD@postgres:5432/$PSQL_DB -c "sel
 done
 
 python manage.py migrate
-python3 manage.py runserver 0.0.0.0:8000
+python3 -u manage.py runserver 0.0.0.0:8000

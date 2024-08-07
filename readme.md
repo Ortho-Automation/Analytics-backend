@@ -18,12 +18,6 @@ Ensure Docker is running by executing docker --version in your terminal.
 Install WSL2 by following the instructions from the Microsoft documentation.
 Ensure you have a Linux distribution installed and set to WSL2.
 
-### Install Dependencies
-Install Django, Django REST framework, and drf-yasg for Swagger UI.
-```bash
-pip install -r requirements.txt
-```
-
 ### Run Migrations and Start the Server
 Apply migrations and start the development server.
 ```bash
@@ -33,15 +27,14 @@ python manage.py makemigrations # If changes happen for e.g. superuser
 ```
 
 ### Docker stack
-Running commands inside Docker image:
+Running commands inside Docker image (based on your containers name):
 ```bash
 docker-compose up --build
-docker exec -it volume_api_app-volume_api-1 black .
-docker exec -it volume_api-volume_api-1 python manage.py migrate
-docker exec -it volume_api-volume_api-1 python manage.py makemigrations
+docker exec -it volume_api_app-volume_api-1 python manage.py migrate
+docker exec -it volume_api_app-volume_api-1 python manage.py makemigrations
 ```
 
-### Add tiff file to serve as tiles
+### Perform test like adding `tiff` file to serve as tiles
 To add a TIFF file and view it as tiles on the frontend:
 
 1. Go to http://localhost:8000/api/geotiffs/
@@ -54,11 +47,18 @@ http://localhost:8000/swagger/
 ### Code Formatting with Black
 To format your code with black, run the following command in your project directory:
 ```bash
-black .
+docker exec -it volume_api_app-volume_api-1 black .
 ```
 
 ### CORS Headers not found in Geoserver responses?
-Wait for your geoserver to spin up successfully, then perform:
+Wait for your geoserver to spin up successfully, then go to root folder and perform:
 ```bash
 docker cp ./web.xml volume_api_app-geoserver-1:/opt/apache-tomcat-9.0.86/webapps/geoserver/WEB-INF/web.xml
 ```
+
+Right now, we don't automate this, if you delete the geoserver container, you have to do this again.
+
+### Preparing environment variables
+
+Locate `.env.sample` in root, clone it and rename as `.env` before spinning up Docker containers.
+You will also need to keep `setting.py` updated while making changes to the env etc.

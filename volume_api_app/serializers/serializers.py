@@ -60,11 +60,9 @@ class BaseMeshSerializer(serializers.ModelSerializer):
 
     def get_data_url(self, obj):
         request = self.context.get("request")
-        if obj.data and hasattr(obj.data, "url"):
-            return request.build_absolute_uri(
-                f"/api/{self.Meta.model._meta.model_name}/{obj.id}"
-            )
-        return None
+        if request:
+            return request.build_absolute_uri(obj.id)
+        return obj.file.url
 
     def create(self, validated_data):
         data_file = validated_data.pop("data", None)

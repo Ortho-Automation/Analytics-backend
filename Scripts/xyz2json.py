@@ -13,19 +13,20 @@ def is_valid_value(value):
     return not (math.isinf(value) or math.isnan(value))
 
 
-def rotate_90_degrees(x, y, z, axis="y"):
-    if axis == "x":
-        return x, z, -y
-    elif axis == "y":
-        return z, y, -x
-    elif axis == "z":
-        return -y, x, z
-    else:
-        raise ValueError(f"Invalid axis: {axis}")
+def rotate_90_degrees(x, y, z):
+    # First transformation
+    x, y, z = -y, x, z
+    # Second transformation
+    x, y, z = z, y, -x
+    return x, y, z
 
 
-def xyz_to_json(file_path, rotation_axis="y"):
+def xyz_to_json(file_path, origincenter=None):
     json_data = []
+
+    # Add the origin center entry at the beginning
+    if origincenter is not None:
+        json_data.append({"origincenter": origincenter})
 
     with open(file_path, "r") as file:
         for line in file:
@@ -46,7 +47,7 @@ def xyz_to_json(file_path, rotation_axis="y"):
                     continue
 
                 # Rotate coordinates
-                # x, y, z = rotate_90_degrees(x, y, z, axis=rotation_axis)
+                x, y, z = rotate_90_degrees(x, y, z)
 
                 normal_x, normal_y, normal_z = normalize(x, y, z)
                 json_entry = {
@@ -76,7 +77,13 @@ def xyz_to_json(file_path, rotation_axis="y"):
 
 # File path to your XYZ data file
 file_path = "open_pit_mine.xyz"  # Adjust this path as needed
-json_output = xyz_to_json(file_path, rotation_axis="z")  # Adjust the axis if needed
+origincenter = [
+    85.40098373553582,
+    21.93062635270207,
+]  # Adjust the origin center coordinates as needed
+json_output = xyz_to_json(
+    file_path, origincenter=origincenter
+)  # Adjust the axis if needed
 
 # Save the JSON output to a file
 output_file_path = "open_pit_mine.json"

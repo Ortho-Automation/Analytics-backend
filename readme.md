@@ -56,8 +56,6 @@ Wait for your geoserver to spin up successfully, then go to root folder and perf
 docker cp ./web.xml volume_api_app-geoserver-1:/opt/apache-tomcat-9.0.86/webapps/geoserver/WEB-INF/web.xml
 ```
 
-Right now, we don't automate this, if you delete the geoserver container, you have to do this again.
-
 ### Preparing environment variables
 
 Locate `.env.sample` in root, clone it and rename as `.env` before spinning up Docker containers.

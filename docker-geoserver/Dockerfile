@@ -33,6 +33,9 @@ ENV SKIP_DEMO_DATA=true
 ENV GEOSERVER_FILEBROWSER_HIDEFS=true
 ENV GEOSERVER_LIB_DIR=${CATALINA_HOME}/webapps/${GEOSERVER_URL_SUFFIX}WEB-INF/lib/
 
+# Copy the web.xml into the image
+COPY ./web.xml /opt/apache-tomcat-9.0.86/webapps/geoserver/WEB-INF/web.xml
+
 # Define custom entrypoint so container waits for other flooder services
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

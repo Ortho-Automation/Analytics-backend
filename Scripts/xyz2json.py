@@ -47,7 +47,7 @@ def xyz_to_json(file_path, origincenter=None):
                     continue
 
                 # Rotate coordinates
-                x, y, z = rotate_90_degrees(x, y, z)
+                # x, y, z = rotate_90_degrees(x, y, z)
 
                 normal_x, normal_y, normal_z = normalize(x, y, z)
                 json_entry = {
@@ -76,7 +76,7 @@ def xyz_to_json(file_path, origincenter=None):
 
 
 # File path to your XYZ data file
-file_path = "open_pit_mine.xyz"  # Adjust this path as needed
+file_path = "extracted_vertices.xyz"  # Adjust this path as needed
 origincenter = [
     85.40098373553582,
     21.93062635270207,
@@ -86,7 +86,7 @@ json_output = xyz_to_json(
 )  # Adjust the axis if needed
 
 # Save the JSON output to a file
-output_file_path = "open_pit_mine.json"
+output_file_path = "open_pit_mine_3.json"
 with open(output_file_path, "w") as json_file:
     json_file.write(json_output)
 

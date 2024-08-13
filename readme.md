@@ -60,3 +60,8 @@ docker cp ./web.xml volume_api_app-geoserver-1:/opt/apache-tomcat-9.0.86/webapps
 
 Locate `.env.sample` in root, clone it and rename as `.env` before spinning up Docker containers.
 You will also need to keep `setting.py` updated while making changes to the env etc.
+
+### Containers cannot find entrypoint.sh
+
+To fix this, locate `postgres/01-init-user.sh` and root folder's `entrypoint.sh`, save them as LF (Linux Line Ending),
+and rerun the build command again.
